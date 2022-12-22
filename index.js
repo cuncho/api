@@ -55,12 +55,10 @@ app.get('/api/idol/:group', async (req, res) => {
 
 
   app.get('/api/bob/:school', async (req, res) => {
-    // 파라미터 정보 가져오기
-    let { school } = req.params;
-    if (school === 'a') {
+    const {school} = req.params
       async function a() {
         const resp = await axios.get(
-          'https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EA%B1%B0%EC%A0%9C%ED%95%B4%EC%84%B1%EC%A4%91+%EA%B8%89%EC%8B%9D&oquery=%ED%95%B4%EC%84%B1%EC%A4%91+%EA%B8%89%EC%8B%9D&tqi=hItIBlp0J1ssst8%2FMP4ssssstoC-522363'
+          'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query='+school+'급식'
         );
         const $ = cheerio.load(resp.data);
 
@@ -73,23 +71,4 @@ app.get('/api/idol/:group', async (req, res) => {
         res.send(data)
       } 
       a();
-    } else if (school === 'b') {
-      async function b() {
-        const resp = await axios.get(
-          'https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EA%B1%B0%EC%A0%9C%ED%95%B4%EC%84%B1%EC%A4%91+%EA%B8%89%EC%8B%9D&oquery=%ED%95%B4%EC%84%B1%EC%A4%91+%EA%B8%89%EC%8B%9D&tqi=hItIBlp0J1ssst8%2FMP4ssssstoC-522363'
-        );
-        const $ = cheerio.load(resp.data);
-
-        const data = $('div.timeline_box')
-          .map((idx, el) => {
-            return $(el).text();
-          })
-          .toArray();
-        var result = data.find(function(data, index){
-            return data.includes('TODAY') === true
-        })
-        res.send({result})
-      } 
-    b();
-  }
   })
